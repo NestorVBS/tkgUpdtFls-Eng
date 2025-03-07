@@ -1,0 +1,49 @@
+tkgWins = 0
+timesRock = 0
+timesPaper = 0
+timesScissor = 0
+myChoice = ""
+tkgChoice = ""
+	
+if myChoice=="piedra"{timesRock++}elseif myChoice=="papel"{timesPaper++}else{timesScissor++}
+
+if glicoRounds > 0{
+	_currentRand = RAND(10) + 1
+	_ProbRock = TOINT((timesRock*10)/glicoRounds)
+	_ProbPaper = TOINT((timesPaper*10)/glicoRounds)
+	_ProbScissor = TOINT((timesScissor*10)/glicoRounds)
+
+	if _currentRand <= _ProbRock{
+		tkgChoice="papel"
+	}elseif _currentRand <= _ProbRock+_ProbPaper{
+		tkgChoice="tijeras"
+	}else{
+		tkgChoice="piedra"
+	}
+}else{
+	if myChoice=="piedra"{tkgChoice="papel"}elseif myChoice=="papel"{tkgChoice="tijera"}else{tkgChoice="piedra"}
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+_ProbRock = 1
+_ProbPaper = 1
+_ProbScissor = 1
+_ProbMultip = 3
+_currentRand = RAND(5) + 1
+
+if myChoice=="piedra"{
+	_ProbPaper*=_ProbMultip
+}elseif myChoice=="papel"{
+	_ProbScissor*=_ProbMultip
+}else{
+	_ProbRock*=_ProbMultip
+}
+
+if _currentRand <= _ProbRock{
+	tkgChoice="papel"
+}elseif _currentRand <= _ProbRock+_ProbPaper{
+	tkgChoice="tijeras"
+}else{
+	tkgChoice="piedra"
+}

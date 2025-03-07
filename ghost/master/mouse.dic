@@ -1,0 +1,88 @@
+//---------------------------Mouse Functions--------------------------
+OnMouseMove
+ {
+		if reference3 == 0
+		{
+			MouseMoveSakura
+		}
+		else
+		{
+			MouseMoveKero
+		}
+ }
+
+MouseMoveSakura
+ {
+	if reference4 != "" //ignore
+ 	{
+ 		stroke++ //if you move the mouse over the right areas, the stroke count will go up.
+ 		if stroke >= 40 //if the stroke count is above a certain number, the petting dialogue will kick in. You can change this number to make the petting take longer or shorter if you want.
+		{
+ 			stroke = 0 //resetting the stroke count
+			if reference4 == "Head" //do you remember the names of the areas you set up for your collisions in surfaces.txt? This is where you'd put in the name of your collision, such as head, face, horns, tail, ears, whatever.
+ 			{
+ 				functionHead
+ 			}
+ 			elseif reference4 == "Forehead"
+ 			{
+ 				functionForehead
+ 			}
+			
+ 		}
+	}
+ 	else
+	{
+		stroke = 0
+ 	}
+}
+ 
+MouseMoveKero
+{
+}
+
+OnMouseDoubleClick
+ {
+	if reference5 == 0
+	{
+	 	if reference3 == 0
+		{
+			if reference4 == "Forehead"{
+				functionForehead
+			}else{
+				MouseDoubleClickSakura
+			}
+		}
+		else
+		{
+ 			MouseDoubleClickKero
+		}
+	}
+ }
+ 
+MouseDoubleClickSakura
+ {
+ 	OpenSakuraMenu
+ }
+ 
+MouseDoubleClickKero
+ {
+ 	//OpenSakuraMenu //OpenKeroMenu //This will open his menu set up in menu.dic.
+ }
+
+
+ functionForehead{
+	"\0\s[7]Hmmm.\e"
+	"\0\s[7]Do I look like I'm having fun?.\e"
+	"\0\s[7]Yes, yes, I know, the forehead...\w8 *Sigh* That Yamamoto ¬¬\e"
+	"\0\s[7]Don't touch my forehead.\e"
+	"\0\s[7]What do you think you're doing?.\e"
+ }
+
+ functionHead{
+	"\0\s[1]Hehe... Thank you\e"
+	"\0\s[1]Ah... uh...\w8thanks\e"
+	"\0\s[3]A pleasant feeling\e"
+	"\0\s[3]It feels really good\e"
+	"\0\s[3]Hehe, that’s much better\e"
+	"\0\s[3]Thank you :3\e"
+ }

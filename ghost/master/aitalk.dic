@@ -1,0 +1,332 @@
+﻿//---------------------------AI Talk--------------------------
+//This is where all their random conversations are stored. 
+
+//If you see a big block of commented text you want to uncomment, highlight the text and then hit ctrl-shift-k in Notepad++ and that should uncomment it. Mostly this is intended for advanced users.
+
+/*
+This file has...
+
+AiTalk
+RandomTalk
+any chains you set up
+HourCheck
+OnMinuteChange
+OnSecondChange
+OffscreenTalk
+EndOffscreenTalk
+OnSurfaceRestore
+OnKeyPress
+*/
+
+//--OnAiTalk
+//Leave this alone. This is mostly setting up whether or not dialogue is in a chain before it displays.
+
+OnAiTalk
+ {
+	if RAND(100) < communicateratio
+ 	{
+ 		StartCommunicate
+	}
+ 	else
+	{
+			if CHAIN.IDName == "" {
+ 				lastTalk = RandomTalk
+			}
+			else {
+				lastTalk = ChainTalk
+			}
+			lastTalk
+	}
+ }
+ 
+ 
+ //*********************Advanced User Info*******************************
+
+//--Mikiretalk, or the Off-Screen Boundary Check--
+
+//Basically, this flag checks to see if the ghost is off the screen and haves them say something to the user to get them to move them back on screen. If you want to enable this, it'll take a bit of fussing around. You're going to want to add the mikireflag check into OnAiTalk above. You can see how so below. Then you'll have to follow up on the flag check later down at OnSecondChange. Keep an eye out.
+
+ 
+//
+// OnAiTalk
+ // {
+	// if RAND(100) < communicateratio
+ 	// {
+ 		// StartCommunicate
+	// }
+ 	// else
+	// {
+ 		// if mikireflag == 0
+		// {
+			// if CHAIN.IDName == "" {
+ 				// lastTalk = RandomTalk
+			// }
+			// else {
+				// lastTalk = ChainTalk
+			// }
+			// lastTalk
+		// }
+ 		// else
+		// { 
+		// MikireTalk
+ 		// }
+	// }
+ // }
+//***********************************************************************
+
+
+//--RandomTalk 
+RandomTalk : nonoverlap_pool
+{
+	if takagiwatch == 0{
+		
+		"\0\s[0]You're more distracted than usual today. Were you thinking about someone?.\e"
+		"\0\s[9]It's important to stay hydrated. Have you had some water?.\e"
+		"\0\s[0]Remember to take a break from time to time.\e"
+		"\0\s[12]Mmm...\w8\w8\w8\s[13]What are you watching? It looks interesting.\e"
+		"\0\s[12]Mmm...\w8\w8\w8\w8\w8\s[13]What are you doing? \w8\w8\w8\s[3]It looks complicated.\e"
+		"\0\s[15]I bet you can't guess what I'm thinking right now.\w8\e"
+		"\0\s[15]You're blushing again... Are you nervous.\w8\e"
+		"\0\s[23]\w8\w8\8\w8\w8\w8\8\w8\w8\w8\w6\i[1]\w8\w8\i[1]\e"
+		"\0\s[9]You know?\w8\w4 Takagi is just my last name,\w8 my full name is...\w8\w8\s[21]\w8\w8\w8\nOh! Wait...\w8\w8\w8\w8\w8\w8\w8\w8\w8\w8 \n\n\s[0]Alright, sorry. What was I saying? Oh! I forgot.\w8\s[15]\e"
+		"\0\s[0]Do you know the game Apple Picker? I remember playing it when I was little. \s[9]I was really good at it, hehe.\e"
+		"\0\s[9]Have you heard that rumor?\n\nThey say that if you write the name of your crush on an eraser and use it until it's gone, your feelings will be reciprocated.\e"
+		"\0\s[0]I don't really like the taste of energy drinks. You know? Is there anything you dislike because of its taste?\e"
+		"\0\s[9]They say that the first person you share good news with is the person you like...\w8\w8\w4\n\s[15]Did someone come to mind?\e"
+		"\0\s[9]You know? Tsukimoto Sanae's older sister is going to marry Tanabe Sensei... \s[5]Interesting couple, hehe.\e"
+		"\0\s[9]Nishikata's least favorite food is green peppers, hehe.\n\s[0]He eats like a little kid.\i[5]\e"
+		"\0\s[0]Do you like animals? I do. I even taught a friend's puppy to shake paws once...\s[9]I think she goes to high school.\e"
+		"\0\s[0]Mina, Yukari, and Sanae are really good friends, they always go everywhere together... I even noticed once that they were following Nishikata and me.\i[5]\e"
+		"\0\s[9]Nishikata really likes dogs, \s[5]we even got to walk one together once.\e"
+
+
+		//------------------------------------------------------------------------------------------
+		if ASEARCH(0,toDoArrayDone) != -1{
+			OnReminder
+		}else{
+			"\0\s[0]What are your plans for these days?\e"
+		}
+		//------------------------------------------------------------------------------------------
+		if month == 1
+		{
+			"\0\s[0]January is a good month to start projects,\w8 don't you think?.\e"
+			"\0\s[0]What are your plans for this year?.\e"
+		}
+		elseif month == 10
+		{
+			"\0\s[0]Uh... this month has a somewhat...\w8 eerie atmosphere \s[15]Don't you think?.\e"
+			"\0\s[0]Uh... this month has a great atmosphere for telling scary stories... \s[15]Don't you think?.\e"
+			"\0\s[0]Autumn is a very beautiful season.\e"
+		}
+		elseif month == 12
+		{
+			"\0\s[0]December is a beautiful month.\e"
+			"\0\s[0]Christmas, New Year's Eve... this month has something special.\e"
+		}
+		//------------------------------------------------------------------------------------------
+		if weekday == 1
+		{
+			"\0\s[0]Is the beginning of the week being hard?.\e"
+			"\0\s[0]Another Monday, do you know what you're doing this week?.\e"
+		}
+		elseif weekday == 5
+		{
+			"\0\s[0]Thanks to Yamamoto it's Friday.\e"
+			"\0\s[0]Friday at last! The weekend is finally here.\e"
+		}
+		//------------------------------------------------------------------------------------------
+		if timeslot == "latenight"
+		{
+			"\0\s[2]Working at night?\w8\n\s[5]I'll keep you company, but remember that it's important to get a good night's rest.\e"
+			"\0\s[2]Isn't it a little late?\e"
+		}
+	}elseif takagiwatch == 1{
+		"\0\s[12]Wow...\w8\w8\s[13]It's very interesting\w8\w8\w8\s[12]\e"
+		"\0\s[12]Hmmm...\w8\e"
+		"\0\s[12]Wouldn't you like to...\w8\w8\w8\w8\w8\s[13]Watch something romantic?\w8\w8\w8\s[12]\e"
+		"\0\s[13]I love music, and you?\w8\w8\w8\s[12]\e"
+	}elseif takagiwatch == 2{
+		"\0\s[11]\b4Interesting...\e"
+		"\0\s[11]\b4Mmm\e"
+		"\0\s[11]\b4\f[bold,1]Mmm.\w4.\w4.\w4\c\w8\f[bold,1].\w4.\w4.\w4\c\w8\f[bold,1].\w4.\w4.\w4\c\w8\f[bold,1].\w4.\w4.\w4\c\w8\f[bold,1].\w4.\w4.\w4\f[bold,0]\e"
+	}
+}
+
+
+//--Chains
+//Each chain function will go through each part of the chain in order even if it's in one function, until it goes to \e:chain=end which will end the chain, as you could probably guess. So you can put the entire chain dialogue into one place.
+
+// achain
+// {{CHAIN
+// 	"\0\s[5]Desde entonces, no ha dejado de intentarlo jaja\e"
+	
+// 	"\0\s[8]A veces me pregunto qué es lo que realmente lo motiva.\e"
+	
+// 	"\0\s[5]Quizás no sea solo el deseo de vencerme,\nsino algo más...\e:chain=end"
+// }}CHAIN
+
+//Note also it ends with \e:chain=end, basically ending the chain.
+
+
+//-OnMinuteChange
+//These are time-related bits of dialogue for your ghost to say. If any of them look interesting, uncomment them! I commented them out for simplicity's sake, but it's up to you if you want to use them or not!
+
+//OnMinuteChange
+//{
+//HourCheck
+//--
+//if mikireflag == 1
+// 	{
+// 		MikireTalk
+//	}
+//}
+
+OnReminder : all
+{
+	_pendingTasks = ASEARCHEX(0,toDoArrayDone)
+	_currenteReminder = ANY(_pendingTasks)
+	"\0\s[22]Remember that you have pending task %(toDoArray[_currenteReminder])\e"
+}
+
+
+//Keeps track of if an hour has passed. Just ignore this.
+HourCheck
+{
+if passmin >= 59
+	{
+		passmin = 0
+		passhour = passhour + 1
+	}
+}
+
+
+OnMinuteChange //This is what will trigger time-based dialogue for your Ghost.
+ {
+	HourCheck //checks to see if an hour has passed, ignore it
+	--
+ 	if minute == 0
+	{
+ 		if hour == 12
+		{
+ 			"\0\s[16]It is already midday.\e"
+		}
+ 		elseif hour == 0
+		{
+			"\0\s[16]What? Is it midnight already?\e"
+			"\0\s[16]Wow, it's late.\e"
+			"\0\s[15]Midnight?... The ghosts' favorite hour?\nAren't you scared?.\e"
+		}
+		else
+		{
+			"\0\s[16]it's %(hour12) o'clock."
+			--
+			if timeslot=="evening"{
+				"\0It's already quite late\e"
+				"\0Aren't you cold?\e"
+			}elseif timeslot=="latenight"{
+				"\0It's getting late.\e"
+			}
+		}
+	}
+	// //You can also check for more specific times! For example...
+	// elseif hour == 23 && minute == 55 //this checks to see if the hour is 23 and the minutes are at 55... essentially, 11:55 pm.
+	// {
+		// "\0\s[0]5 minutes to midnight.\e"
+		// //Replace with what you like!
+	// }
+	// elseif hour == 7 && minute == 30 && weekday == 0 //Here, it's checking for a specific time on a specific day. You can add things to your time checks just like this by using the AND operator, && (more about operators at the walkthrough page). This adds up to 7:30 am, Sunday. If you have a favorite TV program on at some time, you could have your ghost comment on when it comes on like this.
+	// {			
+		// "\0\s[0]It's 7:30 on Sunday.\e"
+		// //Replace with what's appropriate.
+	// }
+	// //If you're not interested in these more specific checks, you can delete those last two elseifs and just leave the one for minute==0, or clear them all out as mentioned above, although leave in the HourCheck and mikireflag bits.
+	
+	// 
+	
+	
+	//Advanced users who want to enable the off-screen boundary check = Remember mikireflag up in OnAiTalk? This is the flag that checks for that. You'll want to uncomment this here so it can trigger the dialogue.
+	
+	//Don't touch this part.
+	// elseif mikireflag == 1
+ 	// {
+ 		// MikireTalk
+	// }
+ }
+
+//--OnSecondChange
+//Like the above, this handles what happens every time a second goes by. Most of this you will not have to touch.
+
+OnSecondChange
+ {
+	if passsec == 59
+	{
+ 		passsec = 0
+ 		passmin = passmin + 1
+ 		if takagiwatch!=2{studyTime=0}
+	}
+ 	else
+	{
+	 	passsec = passsec + 1
+	 	studyTime++
+	}
+ }
+
+ //---- MikireTalk ---------------------------------------------------------------------
+ //MikireTalk is dialogue for when your main character is off-screen. Like if you dragged Girl over to the side of your monitor until she was partially concealed by it. Advanced users, make sure to uncomment this along with all the other mikire related things in here I've pointed out.
+ 
+// MikireTalk
+ // {
+	// "\0\s[0]I'm off the screen.\w8\1\s[10]You can push Ctrl-Shift-F12 to bring her back."
+	// //Note the hotkey combo Triangle mentions. He's telling the truth, that should bring her back on the screen.
+ // }
+
+ //----EndMikireTalk--------------------------------------------------------------------
+ //For after you bring the character back on screen.
+ 
+// EndMikireTalk
+ // {
+	// "\0\s[0]I'm no longer off the screen.\w8\1\s[19]What a shame.\w8\0\s[9]\n\n[half]Shut up.\e"
+ // }
+
+
+//**** OnSurfaceRestore
+
+
+OnSurfaceRestore
+ {
+ 	if takagiwatch == 0{
+ 		"\0\s[0]\e"
+ 	}elseif takagiwatch == 1{
+ 		"\0\s[12]\e"
+ 	}elseif takagiwatch ==2{
+ 		"\0\s[11]\e"
+ 	}
+ }
+
+ 
+ //--OnKeyPress
+ //This defines the hotkeys your ghost will use.
+ 
+OnKeyPress
+{
+	if reference0 == "t"
+	{
+	OnAiTalk
+	}
+	elseif reference0 == "r"
+	{
+	OnLastTalk
+	}
+	elseif reference0 == "f1"
+	{
+	"\![open,readme]"
+	}
+	//elseif reference0 == "g"
+	//{
+	//	"Rounds: %(glicoRounds)\nPiedra: %(timesRock)\nPapel: %(timesPaper)"
+	//}
+	//elseif reference0 == "p"
+	//{
+	//	"\![raise,OnFirstBoot,]"
+	//}
+}

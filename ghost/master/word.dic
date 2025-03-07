@@ -1,0 +1,91 @@
+﻿//---------------------------Envelopes--------------------------
+//Basically, what this file does is set up some things that, for the purposes of this file, I'll call envelopes (this is what they're referred to as on the CROW-SSP Dictionary site... at least, that's what I remember, it's been a while since I've checked it). They are technically functions and can do many things, but this file is mostly an organizational tool for storing lists you may use.
+
+exampleenvelope
+{
+	"Example Envelope Dialogue 1"
+	"Example Envelope Dialogue 2"
+	"Example Envelope Dialogue 3"
+}
+
+internalenvelope
+{
+	"Internal Envelope Dialogue 1 - %(exampleenvelope)"
+	"%(username)'s computer"
+	"Here is a blanklist object - %(blanklist)."
+}
+
+		//*********************Advanced User Info*******************************
+	  //Because these are basically their own functions, you can do other things with them as well as display dialogue. You can add if/else checks, run other functions, have pools of alternate dialogue... the possibilities are really endless.
+	  
+	  //One particularly useful thing you can do is change a value directly through an envelope, like %(nowmode = 'Asleep') or %(betrayed = 1).  For example...
+	  
+	  //"Thank you, %(username), that was really nice of you. %(Feelings += 1)\e"
+	  
+	  //Another use for these envelopes is to shortcut certain long lines of SakuraScript you don't want to have to keep typing.
+	  
+	  //p
+	//	{
+	//	"\f[name,Papyrus UT]\f[height,16]"
+	//	}
+		
+		//And then I can make one that'll change the font back to normal.
+		
+	//	d
+	//{
+	//"\f[name,default]\f[height,default]"
+	//}
+	
+	//So in dialogue, to change fonts I'd just have to go "%(p)HEY THERE!%(d)" to change fonts back and forth quickly. These kind of shortcuts can be very useful.
+	
+	//Another way to use envelopes is to store multiple poses for SurfaceRestore in aitalk.dic.
+	
+	//scared
+	//{
+	//"\0\s[9]\i[3]\i[104]\i[39]"
+	//"\0\s[100]\i[2]\i[40]\i[104]"
+	//"\0\s[100]\i[2]\i[40]\i[106]"
+	//}
+		
+	  //***********************************************************************
+
+blanklist
+{
+	"List object 1"
+	"List object 2"
+	"List object 3"
+	"List object 4"
+	"List object 5"
+}
+
+usersfolder
+{
+	"%(username)'s Recycle Bin"
+	"%(username)'s Document folder"
+	"%(username)'s secret folder"
+}
+
+lessonkor
+{
+	"사과(sa-gua),apple"
+	"노동(no-dong),labor"
+	"손가락(son-ga-rak),finger"
+	"마르크스(ma-r-k-s),Marx"
+	"자본주의(ja-bon-ju-yi),capitalism"
+}
+
+//You can also format your envelopes like this as one line separated by semicolons, but personally I think the spaced lists above look nicer. It's up to you however you want to set them up.
+
+blanklistparagraph
+{
+	"List paragraph 1"; "List paragraph 2"; "List paragraph 3"; "List paragraph 4"; "List paragraph 5";
+}
+
+
+ //**** Don't touch this ***************************************************************
+ //This is code stuff and nothing for you to worry about, just save the .dic and move on! You're done!
+ 
+ On_\person
+{
+ 	person
+}

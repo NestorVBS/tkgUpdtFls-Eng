@@ -1,0 +1,428 @@
+//---------------------------Booting and Ending--------------------------
+
+//This .dic file is set aside for booting and ending dialogue, as well as a few other functions.
+
+//If you see a big block of commented text you want to uncomment, highlight the text and then hit ctrl-shift-k in Notepad++ and that should uncomment it. Mostly this is intended for advanced users.
+
+/* This file has...
+
+OnFirstBoot
+NameInput
+First pronoun stuff
+GetDaySlot/GetTimeSlot
+OnBoot
+normalboottalk
+OnClose
+OnWindowStateRestore
+OnGhostChanging
+OnGhostChanged
+OnShellChanging
+OnShellChanged
+OnDressupChanged
+*/
+
+//--OnFirstBoot--
+
+
+
+OnFirstBoot : all
+{
+//OnFirstBoot begins with some code at first to define some values your ghost will be using.
+
+ 	lastTalk = "" //This is part of how chained conversations work (see aitalk.dic).
+	passhour = 0
+	passmin = 0 
+	passsec = 0 // These keep track of the time.
+ 	username         = "USER" //This sets a temporary name for the user.
+	stroke           = 0	// Sets their being-pet state to zero.
+ 	teachusername    = 0	// Related to them learning your name.
+	mikireflag       = 0	// Determines behavior at certain points.
+ 	aitalkinterval = 300 //Their default talk rate.
+ 	birthdayprint = "????" //A temporary value for the user's birthday.
+	talktime = "5 minutes" //How the value aitalkinterval will display in the config menu.
+	deleteshitai = "ON" //Sets whether or not the user can uninstall the ghost to "OFF". The user can change it later in the config menu (see menu.dic). 
+	nowshell = "master" //This is for a special if check in aitalk.dic to see what shell the ghost is using. You should use the name of your default shell folder here.
+	firstboot = 1 //This marks that this is the first time you've run the ghost. It's so it won't reroute to general name changing dialogue when the user inputs their name. Uncomment this if you're going to have your ghost ask the user directly when they're first booted for the user's name.
+	takagiwatch = 0
+	//GamesVariables
+	glicoRounds = 0 //Rondas de Glico
+	playerWins = 0 //Victorias de Takagi en glico
+	tkgWins = 0 //Victorias de Takagi en glico
+	timesRock = 0
+	timesPaper = 0
+	//timesScissor = 0
+	twentyOneText="" //Texto para el juego de 21
+	twentyOneCount=0 //Contador juego 21
+	//ToDoList
+	toDoArray = IARRAY //To Do List Array
+	toDoArrayDone = IARRAY //Tareas hechas array
+	//GenderDefaultVariables
+	himher = "them"
+	heshe = "they"
+	hisher = "theirs"
+	hesshes = "they're"
+	espPron = "Neutro"
+	espLetra = "x"
+	studyTime = 0
+
+	if reference0 == 0 
+ 	{
+		"\0\s[8]What a beautiful place!...\w8\w8\s[5]\nOh! Hello, I hadn't seen you. My name is \f[bold,1]Takagi-San\f[bold,0], nice to meet you...\nWhy don't you tell me a bit about yourself?\n\w8\w8"
+		--
+		GenderChoice
+ 	}
+	else
+ 	{
+ 		"\0\s[8]I feel like I know this place...\w8\w8\s[5] Oh! Hello, I hadn't seen you. I am \f[bold,1]Takagi-San\f[bold,0], nice to meet you...\nHow about we get to know each other a little?\n\w8\w8"
+ 		--
+ 		GenderChoice
+ 	}
+}
+
+
+//&&&&&&&
+//*********************************
+//NAME/PRONOUNS START
+//*********************************
+//&&&&&&&
+
+GenderChoice:all{
+	"\0\s[8]Are you a boy or a girl?\w5\n\n[half]\_q"
+	"\![*]\q[Boy,choicefirsthehim]\n"
+	"\![*]\q[Girl,choicefirstsheher]\n"
+	"\![*]\q[Other,choicefirsttheythem]\e"
+}
+
+
+Select.choicefirsthehim
+{
+	presuffix = "masculine"
+	himher = "him"
+	heshe = "he"
+	hisher = "his"
+	hesshes = "he's"
+	espPron = "El"
+	espLetra = "o"
+	--
+	NameInput
+}
+
+Select.choicefirstsheher
+{
+	presuffix = "feminine"
+	himher = "her"
+	heshe = "she"
+	hisher = "her"
+	hesshes = "she's"
+	espPron = "Ella"
+	espLetra = "a"
+	--
+	NameInput
+}
+
+Select.choicefirsttheythem
+{
+	himher = "them"
+	heshe = "they"
+	hisher = "theirs"
+	hesshes = "they're"
+	espPron = "Neutro"
+	espLetra = "x"
+	--
+	NameInput
+}
+
+
+//--NameInput
+
+NameInput
+{
+	"\0\s[0]Alright, friend, you already know my name...\w8What's yours? \![open,inputbox,OnNameTeach,-1]\e"
+}
+
+//&&&&&&&
+//*********************************
+//NAME/PRONOUNS END
+//*********************************
+//&&&&&&&
+OnEndFirstBoot{
+	firstboot = 0
+	"\0\c\s[0]Alright, \f[bold,1]%(username)\f[bold,0].\nAs I mentioned, I am \f[bold,1]Takagi-San\f[bold,0].\n\nOf the things I like to do, I would say that taking long walks is one of them, sometimes with my friend Sumire, but, without a doubt, what I enjoy most is playing pranks\s[15]... mainly on Nishikata... I'll tell you more about him later, anyway.\n\n\s[24]\w8\w4Nice to meet you, %(username), I hope we get along well.\w8\w8\w8\w8\s[0]\e"
+}
+
+
+//--timeslot
+
+//make a note of the names used for each chunk of time, like earlymorning or lunch. Those are the names you'll be using later.
+
+timeslot
+{
+	if hour >= 5 && hour <= 8
+	{	"earlymorning"	}
+	elseif hour >= 9 && hour <= 11
+	{	"morning"	}
+	elseif hour >= 12 && hour <= 14
+	{	"lunch"	}
+	elseif hour >= 15 && hour <= 17
+	{	"afternoon"	}
+	elseif hour >= 18 && hour <= 20
+	{	"evening"	}
+	elseif hour >= 21 && hour <= 24
+	{ "latenight"	}
+	else
+	{ "midnight" }
+}
+
+dayslot
+{
+	"%(month)month %(day)day"
+}
+
+OnBoot
+ {
+	lastTalk = ""
+	passhour = 0
+	passmin = 0
+	passsec = 0
+
+	//Variables mySpecial
+	takagiwatch = 0
+	twentyOneText=""
+	twentyOneCount=0
+	//Borrar despues
+	// toDoArray = IARRAY //To Do List Array
+	// toDoArrayDone = IARRAY
+	
+	"\0\s[0]\1\s[10]"
+
+	--
+	
+	if dayslot == userbirthday
+	
+	{
+		"\0\s[0]Today is %(bornmonthprint) %(borndayprint).\w8 Happy birthday, %(username).\e"
+	}
+	elseif dayslot == "2month 27day"
+	{
+		"\0\s[2]February 27th? Today is the birthday of the amazing Rie Takahashi."
+	}
+	elseif dayslot == "7month 7day"
+	{
+		"\0\s[0]July 7th is Tanabata.\e"
+		"\0\s[0]May Orihime and Hikoboshi be able to meet today.\e"
+		"\0\s[0]Have you written your wishes?.\e"
+	}
+	elseif dayslot == "12month 25day"
+	{
+		"\0\s[0]\f[bold,1]¡¡Merry Christmas!!\f[bold,0]\e"
+	}
+	else
+	{
+		"%(normalboottalk)" //If none of the days above match the current date, the ghost instead will go down to the next function, normalboottalk.
+	}
+
+}
+
+
+//--normalboottalk
+
+normalboottalk
+{
+	if weekday == 4
+	{
+		"\0\s[0]Happy Thursday.\e"
+	}
+
+	if timeslot == "earlymorning" || timeslot == "morning"
+	{
+		"\0\s[14]Hmmm... \w8\w8\w8Good morning. What shall we do today?.\w8\w8\w8\s[0]\e"
+		"\0\s[14]Hmmm... \w8\w8\w8It's a beautiful day.\w8\w8\w8\s[0]\e"
+	}
+	
+	"\0\s[6]Hello again.\e"
+	"\0\s[15]Nee, %(username) What are you doing?\e"
+	"\0\s[6]Wow, %(username)! We meet again. \s[15]Are you ready to lose?\e"
+}
+
+
+//--OnClose
+//Do note, close dialogue must end with a \- instead of \e. \- will close the program.
+
+OnClose
+ {
+	takagiwatch = 0
+	"\0\s[0]See you soon.\w8\w8\-"
+	"\0\s[0]I have a couple of games to play with Nishikata, see you later.\w8\w8\-"
+	"\0\s[0]I'm going to see Nishikata, I think he had a new surprise box \i[5]haha.\w8\w8\-"
+	"\0\s[0]See you later, %(username)...\w8\f[bold,1]¡BANG!\f[bold,0]\s[20].\w8\w8\-"
+ }
+
+
+
+ //-------------------------State Changing--------------------
+ //From here on, most of the dialogue will have to do with changing shells, ghosts, or states in some way.
+ 
+ 
+ //--OnWindowStateMinimize
+
+//This will run when you minimize them.
+
+ OnWindowStateMinimize
+{
+	"\0\s[0]Shall we play hide and seek? Hehe.\e"
+	"\0\s[0]Time to hide.\e"
+}
+
+
+//--OnWindowStateRestore
+
+//This will run when you minimize them and then bring them back up.
+
+OnWindowStateRestore
+{
+	"\0\s[0]Oh! You found me, haha.\e"
+	"\0\s[0]I feel like I've grown a couple of centimeters.\e"
+}
+
+
+//--OnGhostChanging
+
+//This runs whenever you change or reload the ghost. You can change ghosts by going into the right click menu and going to Change Ghost, but this dialogue will also be called if you reload them using Utilities->Reload Ghost or the Developer's Console->Reload->Ghost. Protip: If you are going to make a ghost, you will be reloading it A LOT.
+//Note: If you reload your ghost using the developer console instead of Utilities->Reload Ghost, it won't do this dialogue, so don't freak out if it doesn't show up.
+ 
+OnGhostChanging
+ {
+	if reference0 == "Takagi-San" //Replace this with the name of your Sakura character as you put in install.txt or descript.txt.
+	{
+		"\0\s[0]Hi again.\w8\w8\e"
+	}
+ 	else //If you're switching to another Ghost.
+	{
+		"\0\s[0]Are you going to talk to %(reference0)? Ok, good luck.\w8\e"
+		
+		//In OnGhostChanging, %(reference0) stores the name of the ghost being swapped to, so if you want to display what you're switching to, you can use %(reference0) as in this example.
+	}
+}
+
+
+//--OnGhostChanged
+
+//A sister to the above, this runs after the ghost has either reloaded itself, or when you switch from another ghost to this ghost.
+
+OnGhostChanged
+{
+	"\0\s[0]\1\s[10]" //this sets up their default poses
+	--
+	if reference0 == "Takagi-San" //As above, this should be the name of your ghost as in install.txt or descript.txt.
+	{
+		"\0\s[0]I'm back.\e"
+	}
+	else //If you're switching to them from another ghost...
+	{
+		"\0\s[0]See you later, %(reference0).\w8\e"
+
+		//Again, %(reference0) in this function is the name of the ghost in question.
+	}
+}
+
+
+//--OnShellChanging
+
+//This will run when you change your ghost's shell.
+
+OnShellChanging
+ {
+	if reference0 == "Hypothetical Shell that doesn't actually exist" //reference0 in OnShellChanging is the name of the shell you're swapping to. It should be defined in the descript.txt file in your shell folder.
+	{
+	"\0\s[0]This dialogue is specifically for changing to this particular shell.\w8\0\w8\s[9]It totally exists.\w8\e"
+	}
+	else //if you don't have any specific dialogue for a specific shell
+	{
+	"\0\s[0]This dialogue is for changing shells.\w8Sure is.\w8\e"
+	
+	"\0\s[10]This is another bit of dialogue for changing shells.\w8\0\s[8]I wonder how many people will actually have multiple shells?\e"
+	}
+ }
+ 
+ 
+ //--OnShellChanged
+ 
+ //The sister to the above, this is the dialogue after you've changed the shell.
+ 
+OnShellChanged
+ {
+ 	if reference0 == "Takagi-San" //Again, this is the name of your shell as you put in the descript.txt file for that shell.
+ 	{
+ 		nowshell = "master" //This is the folder name for your shell. Not the same as the above! 
+		
+ 		"\0\s[0]Un clásico.\w8 Nada como el atuendo original no?\e"
+ 	}
+ 	elseif reference0 == "Hypothetical Shell that doesn't actually exist"
+ 	{
+ 		nowshell = "totallyrealshell"
+		
+ 		"\0\s[0]This dialogue is for switching to that hypothetical shell.\e"
+		
+ 		"\0\s[0]This is another bit of dialogue for switching to this hypothetical shell.\w8\1\s[18]Man if you actually use this, you should tell Zar, it'll blow her mind.\w8\0\n\n[half]\s[9]Shut up, we're not supposed to be in-character here.\e"
+ 	}
+ 	elseif reference0 == "Another totally real shell wow"
+ 	{
+ 		nowshell = "thiswouldbesomuchwork"
+		
+ 		"\1\s[10]This dialogue is after we've switched to another totally real shell.\e"
+ 	}
+ 	else //For any shell without a specific name, or if you don't want to bother with individual responses to a shell.
+ 	{
+	"\0\s[0]¿%(reference[0])? Esto es nuevo jaja.\w8\0\s[18]Cuantos shells tienes?\e"
+	
+	//Note the %(reference[0]) here! This time that should store the name of whatever shell you're switching to.
+	}
+ }
+
+
+ //--OnDressupChanged
+ 
+ //This runs whenever you fiddle with their clothing via the dress-up option, if you've set any for your ghost.
+
+OnDressupChanged
+{
+if reference0 == 0 //in OnDressupChanged, reference0 refers to the character, therefore this is evaluating which character in question is getting dressed up. 0 is the main character, as you know from the walkthrough by now.
+	{
+	if reference1 == "Clothing for Girl" //This is the name of the clothing item in the descript.txt file, I'm pretty sure.
+		{
+			if reference2 == 1 //This checks if you're putting it on.
+			{
+			"\0\s[0]You put my clothing item on me.\w8\1\s[19]lol like zar would ever bother with clothes for a ghost.\w8\0\s[9]\n\n[half]Shut up dude you're going to get us in trouble.\e"
+			}
+			else // This checks if you're taking it off.
+			{
+			"\0\s[0]You took the clothing item off.\e"
+			}
+		}		
+	}
+else //if reference0 isn't the main character, then it has to be the side character.
+	{
+	if reference1 == "some kind of clothing for triangle??" //The name of the item of clothing in the descript.txt file in your shell folder.
+		{
+			if reference2 == 1 //If you put it on
+			{
+			"\1\s[10]I'm wearing some kind of clothing.\w8\0\s[8]Maybe a hat?\e"
+			}
+			else //When you take it off.
+			{
+			"\1\s[10]You took off some kind of clothing.\e"
+			}
+		}
+	elseif reference1 == "i'm gonna say a propeller beanie" //As you've seen above, you can use elseifs to expand the list if you have more than one item.
+		{
+			if reference2 == 1 //if you're putting it on
+			{
+			"\1\s[10]You put a hat on me.\w8\0\s[6]lol.\w8\1\n\n[half]\s[11]Shaddap.\e"
+			}
+			else //when you take it off
+			{
+			"\1\s[10]You took off the hat.\e"
+			}
+		}
+	}
+}

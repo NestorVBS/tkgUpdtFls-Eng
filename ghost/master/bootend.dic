@@ -292,7 +292,7 @@ OnWindowStateRestore
  
 OnGhostChanging
  {
-	if reference0 == "Takagi-San" //Replace this with the name of your Sakura character as you put in install.txt or descript.txt.
+	if reference0 == "Takagi-San(ENG)" //Replace this with the name of your Sakura character as you put in install.txt or descript.txt.
 	{
 		"\0\s[0]Hi again.\w8\w8\e"
 	}

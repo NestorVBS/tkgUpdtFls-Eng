@@ -1,7 +1,7 @@
 charset,OSNative
 file,ghost/master/aitalk.dicf0808449f5e77a9dc5780821e37fb5b8size=11127date=2025-03-06T19:45:31
 file,ghost/master/anchor.dic9495ca3bc29065ed2d8e412838c650efsize=2237date=2023-09-28T20:23:43
-file,ghost/master/bootend.dic4cebc574516b0ccaca97f310a6f7882csize=13187date=2025-03-06T20:04:26
+file,ghost/master/bootend.dic8524a10b37ebab2f91f8a6c6d008e00bsize=13192date=2025-03-07T18:29:01
 file,ghost/master/commu.dic25d50da676e84ffbdc92fbc31bb6ee51size=3816date=2023-09-28T20:38:11
 file,ghost/master/descript.txt358a8d2768e66c56f01652a4619f842esize=2432date=2025-03-06T19:21:51
 file,ghost/master/etc.dicb573adba158a0510f387f5492def4b06size=25874date=2025-03-06T20:26:50
